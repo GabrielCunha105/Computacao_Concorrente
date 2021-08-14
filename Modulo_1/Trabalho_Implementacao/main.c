@@ -7,7 +7,7 @@
  * 
  * Para compilar e executar:
  * $ gcc main.c Matriz.c -o strassen -lpthread
- * $ ./strassen
+ * $ ./strassen <N> <Número de Threads> (Dimensão das Matrizes será 2^N X 2^N)
  * 
  */
 
@@ -59,25 +59,24 @@ int main(int argc, char const *argv[])
     Matriz *b = matriz_aleatoria(0x1 << n, 0x1 << n);
 
     printf("Multiplicando matrizes %d X %d ...\n", a->altura, a->altura);
+    printf("\nMétodo utilizado:\t\t\tTempo para calcular:\n");
 
     inicio = clock();
     Matriz *cT = multiplicacao_tradiconal(a, b);
     fim = clock();
     double tempoT = (double) (fim - inicio)/CLOCKS_PER_SEC;
+    printf("Multiplicação tradicional\t\t%f Segundos\n", tempoT);
 
     GET_TIME(inicio);
     Matriz *cSS = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, 0); // Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
     GET_TIME(fim);
     double tempoSS = fim - inicio;
+    printf("Método de Strassen Sequencial\t\t%f Segundos\n", tempoSS);
 
     GET_TIME(inicio);
     Matriz *cSC = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, 1); // Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
     GET_TIME(fim);
     double tempoSC = fim - inicio;
-
-    printf("\nMétodo utilizado:\t\t\tTempo para calcular:\n");
-    printf("Multiplicação tradicional\t\t%f Segundos\n", tempoT);
-    printf("Método de Strassen Sequencial\t\t%f Segundos\n", tempoSS);
     printf("Método de Strassen com %d threads\t%f Segundos\n", nthreads, tempoSC);
 
     if (comparar(cT, cSS) && comparar(cT, cSC)) {

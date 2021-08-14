@@ -19,6 +19,11 @@ extern int nthreads;
  */
 Matriz *iniciar_matriz(int altura, int largura) {
     Matriz *out = malloc(sizeof(Matriz));
+    if(out == NULL) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(2);
+    }
+
     out->inicioX = 0;
     out->inicioY = 0;
     out->altura = altura;
@@ -53,6 +58,11 @@ void iniciar_submatriz(int altura, int largura, Matriz *from,
  */
 Args_Strassen *iniciar_Args_Strassen(Matriz *a, Matriz *b, int limiteTradicional) {
     Args_Strassen *out = malloc(sizeof(Args_Strassen));
+    if(out == NULL) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(2);
+    }
+
     out->a = a;
     out->b = b;
     out->ret = NULL; // O resultado da multiplicação será armazenado aqui
@@ -203,12 +213,20 @@ Matriz *strassen_sequencial(Matriz *a, Matriz *b, int limiteTradicional) {
     Matriz *a12 = malloc(sizeof(Matriz));
     Matriz *a21 = malloc(sizeof(Matriz));
     Matriz *a22 = malloc(sizeof(Matriz));
+    if(!(a11 && a12 && a21 && a22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(a, a11, a12, a21, a22);
 
     Matriz *b11 = malloc(sizeof(Matriz));
     Matriz *b12 = malloc(sizeof(Matriz));
     Matriz *b21 = malloc(sizeof(Matriz));
     Matriz *b22 = malloc(sizeof(Matriz));
+    if(!(b11 && b12 && b21 && b22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(b, b11, b12, b21, b22);
 
     Matriz *out = iniciar_matriz(a->altura, b->largura);
@@ -216,6 +234,10 @@ Matriz *strassen_sequencial(Matriz *a, Matriz *b, int limiteTradicional) {
     Matriz *out12 = malloc(sizeof(Matriz));
     Matriz *out21 = malloc(sizeof(Matriz));
     Matriz *out22 = malloc(sizeof(Matriz));
+    if(!(out11 && out12 && out21 && out22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(out, out11, out12, out21, out22);
 
     Matriz *s1 = iniciar_matriz(tamanhoSub, tamanhoSub);
@@ -316,26 +338,38 @@ Matriz *strassen_concorrente(Matriz *a, Matriz *b, int limiteTradicional) {
         return multiplicacao_tradiconal(a, b);
     }
     int tamanhoSub = a->altura/2;
-    pthread_t tids[4];
+    pthread_t tids[nthreads];
 
 
-    Matriz *a11 =malloc(sizeof(Matriz));
-    Matriz *a12 =malloc(sizeof(Matriz));
-    Matriz *a21 =malloc(sizeof(Matriz));
-    Matriz *a22 =malloc(sizeof(Matriz));
+    Matriz *a11 = malloc(sizeof(Matriz));
+    Matriz *a12 = malloc(sizeof(Matriz));
+    Matriz *a21 = malloc(sizeof(Matriz));
+    Matriz *a22 = malloc(sizeof(Matriz));
+    if(!(a11 && a12 && a21 && a22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(a, a11, a12, a21, a22);
 
-    Matriz *b11 =malloc(sizeof(Matriz));
-    Matriz *b12 =malloc(sizeof(Matriz));
-    Matriz *b21 =malloc(sizeof(Matriz));
-    Matriz *b22 =malloc(sizeof(Matriz));
+    Matriz *b11 = malloc(sizeof(Matriz));
+    Matriz *b12 = malloc(sizeof(Matriz));
+    Matriz *b21 = malloc(sizeof(Matriz));
+    Matriz *b22 = malloc(sizeof(Matriz));
+    if(!(b11 && b12 && b21 && b22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(b, b11, b12, b21, b22);
 
     Matriz *out = iniciar_matriz(a->altura, b->largura);
-    Matriz *out11 =malloc(sizeof(Matriz));
-    Matriz *out12 =malloc(sizeof(Matriz));
-    Matriz *out21 =malloc(sizeof(Matriz));
-    Matriz *out22 =malloc(sizeof(Matriz));
+    Matriz *out11 = malloc(sizeof(Matriz));
+    Matriz *out12 = malloc(sizeof(Matriz));
+    Matriz *out21 = malloc(sizeof(Matriz));
+    Matriz *out22 = malloc(sizeof(Matriz));
+    if(!(out11 && out12 && out21 && out22)) {
+        fprintf(stderr, "ERRO--malloc\n");
+        exit(3);
+    }
     dividir_matriz(out, out11, out12, out21, out22);
 
     Matriz *s1 = iniciar_matriz(tamanhoSub, tamanhoSub);
