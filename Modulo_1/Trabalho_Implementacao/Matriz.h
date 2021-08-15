@@ -10,12 +10,20 @@ typedef struct Matriz
     int inicioY;
 } Matriz;
 
+// Parâmetros nescessários para aplicar o Algorítmo de Strassen.
 typedef struct Args_Strassen {
     Matriz *a;
     Matriz *b;
     Matriz *ret;
     int limiteTradicional;
 } Args_Strassen;
+
+// Parâmetros recebidos por uma thread
+typedef struct Thread_Args {
+    Args_Strassen **tarefas;
+    int id;
+    int nthreads;
+} Thread_Args;
 
 Matriz *iniciar_matriz(int, int);
 
@@ -27,7 +35,7 @@ void apagar_matriz(Matriz*);
 
 void apagar_submatriz(Matriz*);
 
-void apagar_t_args(Args_Strassen*);
+void apagar_Args_Strassen(Args_Strassen*);
 
 Matriz *matriz_aleatoria(int, int);
 
@@ -47,9 +55,11 @@ void dividir_matriz(Matriz*, Matriz*, Matriz*, Matriz*, Matriz*);
 
 Matriz *strassen_sequencial(Matriz*, Matriz*, int);
 
+int num_threads_restantes(int, int);
+
 void *tarefa_thread(void*);
 
-Matriz *strassen_concorrente(Matriz*, Matriz*, int);
+Matriz *strassen_concorrente(Matriz*, Matriz*, int, int);
 
 int comparar(Matriz*, Matriz*);
 

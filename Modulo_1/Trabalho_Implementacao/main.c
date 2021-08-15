@@ -17,7 +17,9 @@
 
 #include "Matriz.h"
 
+// Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
 #define LIMITE_TRADICIONAL 64
+
 #define GET_TIME(now) { \
    struct timespec time; \
    clock_gettime(CLOCK_MONOTONIC, &time); \
@@ -37,10 +39,6 @@ void ler_args(int argc, char const *argv[]) {
     }
     n = atoi(argv[1]);
     nthreads = atoi(argv[2]);
-
-    if (nthreads > 7) { // TODO: trocar
-        nthreads = 7;
-    }
 }
 
 /**
@@ -68,13 +66,13 @@ int main(int argc, char const *argv[])
     printf("Multiplicação tradicional\t\t%f Segundos\n", tempoT);
 
     GET_TIME(inicio);
-    Matriz *cSS = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, 0); // Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
+    Matriz *cSS = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, 0); 
     GET_TIME(fim);
     double tempoSS = fim - inicio;
     printf("Método de Strassen Sequencial\t\t%f Segundos\n", tempoSS);
 
     GET_TIME(inicio);
-    Matriz *cSC = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, 1); // Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
+    Matriz *cSC = multiplicacao_strassen(a, b, LIMITE_TRADICIONAL, nthreads);
     GET_TIME(fim);
     double tempoSC = fim - inicio;
     printf("Método de Strassen com %d threads\t%f Segundos\n", nthreads, tempoSC);
