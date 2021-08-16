@@ -17,7 +17,7 @@
 
 #include "Matriz.h"
 
-// Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
+// Matrizes menores que 128 X 128 serão multiplicadas pelo método tradicional.
 #define LIMITE_TRADICIONAL 128
 
 #define GET_TIME(now) { \
