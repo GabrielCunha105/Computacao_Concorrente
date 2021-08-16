@@ -18,7 +18,7 @@
 #include "Matriz.h"
 
 // Matrizes menores que 64 X 64 serão multiplicadas pelo método tradicional.
-#define LIMITE_TRADICIONAL 64
+#define LIMITE_TRADICIONAL 128
 
 #define GET_TIME(now) { \
    struct timespec time; \
