@@ -127,10 +127,10 @@ class LE extends Thread {
 }
 
 public class Atividade_1 {
-    public static int NUM_E;
-    public static int NUM_L;
-    public static int NUM_LE;
-    public static int var = 0;
+    public static int NUM_E; // Número de Threads escritoras
+    public static int NUM_L; // Número de Threads leitoras
+    public static int NUM_LE; // Número de Threads leitoras/escritoras
+    public static int var = 0; // Variável global
 
     public static void ler_args(String[] args)
     throws IllegalArgumentException, NumberFormatException {
