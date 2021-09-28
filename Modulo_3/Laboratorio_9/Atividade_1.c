@@ -51,7 +51,7 @@ void *produtor(void *args) {
 void *consumidor(void *args) {
     const long id = (long) args;
 
-    for (int i = 0; 1; ++i) {
+    while (1) {
         // Espera o o sinal de consumidores
         sem_wait(&semConsumidor);
 
