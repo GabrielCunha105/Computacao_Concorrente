@@ -30,7 +30,7 @@ class ControladorPC {
 
     /**
      * Define o limite de quantos blocos serão consumidos, quando a função {@code consumir},
-     * for chamada {@code limite} vezes, chamadas subsequentes retornarão {@value null}.
+     * for chamada {@code limite} vezes, chamadas subsequentes retornarão {@literal null}.
      * 
      * @param limite Novo limite
      */
